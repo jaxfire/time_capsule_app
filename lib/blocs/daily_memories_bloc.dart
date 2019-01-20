@@ -44,7 +44,7 @@ class DayEntryBloc implements BlocBase {
   ///
   /// GET day memory entries
   ///
-  final _dayEntryController = StreamController<DayEntry>();
+  final _dayEntryController = StreamController<DayEntry>.broadcast();
   Sink<DayEntry> get _inDayEntry =>_dayEntryController.sink; // Input from Cloud Firestore
   Stream<DayEntry> get outDayEntry =>_dayEntryController.stream; // Output to whoever subscribes
 
