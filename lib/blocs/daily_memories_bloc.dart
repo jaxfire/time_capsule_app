@@ -21,8 +21,8 @@ class DateChangeDecrement extends DateChangeEvent {
 }
 
 class DayEntry {
-  String entry1, entry2, entry3;
-  DayEntry(this.entry1, this.entry2, this.entry3);
+  String theDate, entry1, entry2, entry3;
+  DayEntry(this.theDate, this.entry1, this.entry2, this.entry3);
 }
 
 class DayEntryBloc implements BlocBase {
@@ -61,9 +61,9 @@ class DayEntryBloc implements BlocBase {
   DayEntryBloc(){
 
     // Test data
-    _dayEntries.add(DayEntry('a','b','c'));
-    _dayEntries.add(DayEntry('d','e','f'));
-    _dayEntries.add(DayEntry('g','h','i'));
+    _dayEntries.add(DayEntry('18/01/2019', 'a','b','c'));
+    _dayEntries.add(DayEntry('19/01/2019', 'd','e','f'));
+    _dayEntries.add(DayEntry('20/01/2019', 'g','h','i'));
 
     _dayEntryAddController.stream.listen(_handleAddDayEntry);
     _dateChangeController.stream.listen(_handleDateChange);

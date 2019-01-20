@@ -68,7 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     StreamBuilder(
                         stream: bloc.outDayEntry,
-                        initialData: DayEntry('Message 1', 'Message 2', 'Message 3'),
+                        initialData:
+                            DayEntry('20/01/2019', 'Message 1', 'Message 2', 'Message 3'),
                         builder: (BuildContext buildContext,
                             AsyncSnapshot<DayEntry> snapshot) {
                           if (snapshot.hasData) {
