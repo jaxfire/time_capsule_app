@@ -31,7 +31,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   final textFieldController1 = TextEditingController();
   final textFieldController2 = TextEditingController();
   final textFieldController3 = TextEditingController();
@@ -63,7 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Icons.arrow_back_ios),
-                      onPressed: () { bloc.inDateChange.add(DateChangeDecrement()); },
+                      onPressed: () {
+                        bloc.inDateChange.add(DateChangeDecrement());
+                      },
                     ),
                     StreamBuilder(
                         stream: bloc.outDayEntry,
@@ -79,7 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 children: <Widget>[
                                   Expanded(
                                     child: TextField(
-                                      decoration: const InputDecoration(helperText: "Memory 1"),
+                                      decoration: const InputDecoration(
+                                          helperText: "Memory 1"),
                                       style: Theme.of(context).textTheme.body1,
                                       controller: textFieldController1,
                                     ),
@@ -87,7 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   Expanded(
                                     child: TextField(
-                                      decoration: const InputDecoration(helperText: "Memory 2"),
+                                      decoration: const InputDecoration(
+                                          helperText: "Memory 2"),
                                       style: Theme.of(context).textTheme.body1,
                                       controller: textFieldController2,
                                     ),
@@ -95,7 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   Expanded(
                                     child: TextField(
-                                      decoration: const InputDecoration(helperText: "Memory 3"),
+                                      decoration: const InputDecoration(
+                                          helperText: "Memory 3"),
                                       style: Theme.of(context).textTheme.body1,
                                       controller: textFieldController3,
                                     ),
@@ -110,7 +114,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         }),
                     IconButton(
                       icon: Icon(Icons.arrow_forward_ios),
-                      onPressed: () { bloc.inDateChange.add(DateChangeIncrement()); },
+                      onPressed: () {
+                        bloc.inDateChange.add(DateChangeIncrement());
+                      },
                     ),
                   ],
                 ),
@@ -121,7 +127,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          bloc.inAddDayEntry.add(textFieldController1.text + ' ' + textFieldController2.text + ' ' + textFieldController3.text);
+          bloc.inAddDayEntry.add(textFieldController1.text +
+              ' ' +
+              textFieldController2.text +
+              ' ' +
+              textFieldController3.text);
         },
         tooltip: 'Save Memories',
         child: Icon(Icons.save_alt),
