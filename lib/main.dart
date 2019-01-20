@@ -50,9 +50,13 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: <Widget>[
           SafeArea(
-            child: Text(
-              'The Date'
-            ),
+            child: StreamBuilder(
+                stream: bloc.outDayEntry,
+                initialData: DayEntry('20/01/2019', 'Message 1', 'Message 2', 'Message 3'),
+                builder: (BuildContext buildContext,
+                    AsyncSnapshot<DayEntry> snapshot) {
+                  return Text(snapshot.data.theDate);
+                }),
           ),
           Expanded(
             child: Center(
