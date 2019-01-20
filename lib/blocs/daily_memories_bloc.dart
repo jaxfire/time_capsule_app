@@ -31,7 +31,7 @@ class DayEntryBloc implements BlocBase {
   /// Test data
   ///
   List<DayEntry> _dayEntries = List();
-  int date = 0;
+  int date = 2;
 
   // ##########  STREAMS  ##############
   ///
