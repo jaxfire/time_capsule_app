@@ -44,9 +44,9 @@ class DayEntryBloc implements BlocBase {
   ///
   /// GET day memory entries
   ///
-  final _dayEntryController = StreamController<String>();
-  Sink<String> get _inDayEntry =>_dayEntryController.sink; // Input from Cloud Firestore
-  Stream<String> get outDayEntry =>_dayEntryController.stream; // Output to whoever subscribes
+  final _dayEntryController = StreamController<DayEntry>();
+  Sink<DayEntry> get _inDayEntry =>_dayEntryController.sink; // Input from Cloud Firestore
+  Stream<DayEntry> get outDayEntry =>_dayEntryController.stream; // Output to whoever subscribes
 
   ///
   /// CHANGE DATE
@@ -63,7 +63,7 @@ class DayEntryBloc implements BlocBase {
     // Test data
     _dayEntries.add(DayEntry('a','b','c'));
     _dayEntries.add(DayEntry('d','e','f'));
-
+    _dayEntries.add(DayEntry('g','h','i'));
 
     _dayEntryAddController.stream.listen(_handleAddDayEntry);
     _dateChangeController.stream.listen(_handleDateChange);
@@ -78,7 +78,7 @@ class DayEntryBloc implements BlocBase {
   // ############# HANDLING  #####################
 
   void _handleAddDayEntry(String inputData){
-    print('Handling input of $inputData');
+    print('Handling input: $inputData');
     // Persist the day entry
 //    _favorites.add(movieCard);
 
@@ -86,14 +86,17 @@ class DayEntryBloc implements BlocBase {
   }
 
   void _handleDateChange(DateChangeEvent dateChangeEvent){
-    print('Handling date change');
     int requestedDate = date + dateChangeEvent.changeValue();
     if(requestedDate >= 0 && requestedDate <= 2) {
       print('Date is in range for test purposes');
       date = requestedDate;
+      _inDayEntry.add(_dayEntries[date]);
       // TODO:
       // Check if we already have this date entry in memory.
       // Make request to firebase for new date.
+    } else {
+      print('Date is out of range');
+      // TODO: Disable arrows
     }
   }
 

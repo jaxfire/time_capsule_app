@@ -31,58 +31,97 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  final textFieldController1 = TextEditingController();
+  final textFieldController2 = TextEditingController();
+  final textFieldController3 = TextEditingController();
+
+  @override
+  void dispose() {
+    textFieldController1.dispose();
+    textFieldController2.dispose();
+    textFieldController3.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final DayEntryBloc bloc = BlocProvider.of<DayEntryBloc>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                onPressed: () { bloc.inDateChange.add(DateChangeDecrement()); },
-              ),
-              StreamBuilder(
-                  stream: bloc.outDayEntry,
-                  initialData: "Intitial data",
-                  builder: (BuildContext buildContext,
-                      AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasData) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Text(
-                            'Enter Memory 1 ' + snapshot.data,
-                          ),
-                          Text(
-                            'Enter Memory 2 ' + snapshot.data,
-                          ),
-                          Text(
-                            'Enter Memory 3 ' + snapshot.data,
-                          ),
-                        ],
-                      );
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  }),
-              IconButton(
-                icon: Icon(Icons.arrow_forward_ios),
-                onPressed: () { bloc.inDateChange.add(DateChangeIncrement()); },
-              ),
-            ],
+      body: Column(
+        children: <Widget>[
+          SafeArea(
+            child: Text(
+              'The Date'
+            ),
           ),
-        ),
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.arrow_back_ios),
+                      onPressed: () { bloc.inDateChange.add(DateChangeDecrement()); },
+                    ),
+                    StreamBuilder(
+                        stream: bloc.outDayEntry,
+                        initialData: DayEntry('Message 1', 'Message 2', 'Message 3'),
+                        builder: (BuildContext buildContext,
+                            AsyncSnapshot<DayEntry> snapshot) {
+                          if (snapshot.hasData) {
+                            textFieldController1.text = snapshot.data.entry1;
+                            textFieldController2.text = snapshot.data.entry2;
+                            textFieldController3.text = snapshot.data.entry3;
+                            return Expanded(
+                              child: Column(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: TextField(
+                                      decoration: const InputDecoration(helperText: "Memory 1"),
+                                      style: Theme.of(context).textTheme.body1,
+                                      controller: textFieldController1,
+                                    ),
+                                    flex: 1,
+                                  ),
+                                  Expanded(
+                                    child: TextField(
+                                      decoration: const InputDecoration(helperText: "Memory 2"),
+                                      style: Theme.of(context).textTheme.body1,
+                                      controller: textFieldController2,
+                                    ),
+                                    flex: 1,
+                                  ),
+                                  Expanded(
+                                    child: TextField(
+                                      decoration: const InputDecoration(helperText: "Memory 3"),
+                                      style: Theme.of(context).textTheme.body1,
+                                      controller: textFieldController3,
+                                    ),
+                                    flex: 1,
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        }),
+                    IconButton(
+                      icon: Icon(Icons.arrow_forward_ios),
+                      onPressed: () { bloc.inDateChange.add(DateChangeIncrement()); },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          bloc.inAddDayEntry.add('TEST INPUT DATA');
+          bloc.inAddDayEntry.add(textFieldController1.text + ' ' + textFieldController2.text + ' ' + textFieldController3.text);
         },
         tooltip: 'Save Memories',
         child: Icon(Icons.save_alt),
